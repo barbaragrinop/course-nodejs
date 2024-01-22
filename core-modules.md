@@ -9,3 +9,7 @@
 
 Stream = ongoing process
 the requestis simply read by node in chunks (multiple parts) e em algum momento, tá pronto
+
+## SINGLE THREAD, EVENT LOOP & BLOCKING CODE
+
+node uses a single js thread
