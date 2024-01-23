@@ -4,7 +4,7 @@
   "description": "read.me file",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
   "repository": {
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/barbaragrinop/course-nodejs/issues"
   },
-  "homepage": "https://github.com/barbaragrinop/course-nodejs#readme"
+  "homepage": "https://github.com/barbaragrinop/course-nodejs#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
 }
