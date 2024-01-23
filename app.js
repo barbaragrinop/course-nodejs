@@ -13,6 +13,5 @@ app.use((req, res, next) => {
     res.send('<h1>Hello from Express!</h1>') // Send a response
 })
 
-const server = http.createServer(app)
 
-server.listen(3000);
+app.listen(3000)
