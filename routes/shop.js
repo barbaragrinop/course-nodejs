@@ -8,7 +8,7 @@ const adminData = require("./admin");
 router.get("/", (req, res, next) => {
     // res.render('pug/shop', { prods: adminData.products, pavgeTitle: 'Shop', path: '/' }) //by default it looks for views folder
 
-    res.render("handlebars/shop", {
+    res.render("ejs/shop", {
         prods: adminData.products,
         pageTitle: "Shop",
         path: "/",

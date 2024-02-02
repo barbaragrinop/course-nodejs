@@ -4,10 +4,8 @@ const router = express.Router();
 
 const products = [];
 
-const rootDir = require("../util/path");
-
 router.get("/add-product", (req, res, next) => {
-    res.render("handlebars/add-product", {
+    res.render("ejs/add-product", {
         pageTitle: "Add Product",
         path: "/admin/add-product",
         activeShop: false,
@@ -15,8 +13,6 @@ router.get("/add-product", (req, res, next) => {
         formCSS: true,
         productCSS: true,
     }); //by default it looks for views folder
-
-    // res.render('pug/add-product', {pageTitle: 'Add Product', path: '/admin/add-product'}) //by default it looks for views folder
 });
 
 router.post("/product", (req, res) => {
