@@ -41,4 +41,11 @@ exports.getCheckout = (req, res, next) => {
   });
 }
 
-exports.get
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId, product => {
+    console.log('product', product)
+  });
+  console.log('prodId', prodId)
+  res.redirect('/cart');
+}
