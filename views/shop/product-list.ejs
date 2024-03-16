@@ -1,5 +1,6 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
@@ -14,7 +15,7 @@
                             <h1 class="product__title"><%= product.title %></h1>
                         </header>
                         <div class="card__image">
-                            <img src="<%= product.title %>"
+                            <img src="<%= product.imgUrl %>"
                                 alt="A Book">
                         </div>
                         <div class="card__content">
@@ -22,9 +23,8 @@
                             <p class="product__description">A very interesting book about so many even more interesting things!</p>
                         </div>
                         <div class="card__actions">
-                            <form action="/add-to-cart/1" method="post">
-                                <button class="btn">Add to Cart</button>
-                            </form>
+                            <a href="/products/<%= product.id %>" class="btn">Details</a>
+                            <%- include('../includes/add-to-cart.ejs', {product: product})%>
                         </div>
                     </article>
                 <% } %>
