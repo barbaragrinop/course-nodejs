@@ -102,14 +102,19 @@ exports.postCart = (req, res, next) => {
     })
 
     .catch(err => console.log("error in fetching product by id", err))
-
 }
 
 
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId
-  Product.findById(prodId, product => {
-    Cart.deleteProduct(prodId, product.price)
-    res.redirect('/cart')
-  })
+  req.user.getCart()
+    .then(cart => {
+      return cart.getProducts({ where: { id: prodId } })
+    }).then(filteredCart => {
+      const product = filteredCart[0]
+      product.cartItem.destroy()
+    }).then(() => {
+      console.log('Item removed from cart succesfully')
+      res.redirect('/cart')
+    }).catch(err => console.log("error in deleting product from cart", err))
 }
