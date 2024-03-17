@@ -52,26 +52,7 @@ exports.getCart = (req, res, next) => {
       });
     }).catch(err => console.log("error in fetching products from cart", err))
   })
-  // Cart.getCart(cart => {
-  //   Product.fetchAll(products => {
-  //     const cartProducts = []
-  //     for (product of products) {
-  //       const cartProductData = cart.products.find(prod => prod.id === product.id)
-  //       if (cartProductData) {
-  //         cartProducts.push({
-  //           productData: product,
-  //           qty: cart.products.find(prod => prod.id === product.id).qty
-  //         })
-  //       }
-  //     }
-  //     console.log('cartProducts', cartProducts)
-  //     res.render('shop/cart', {
-  //       path: '/cart',
-  //       pageTitle: 'Your Cart',
-  //       products: cartProducts
-  //     });
-  //   })
-  // })
+
 }
 
 exports.getOrders = (req, res, next) => {
