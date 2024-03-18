@@ -1,5 +1,4 @@
 const Product = require('../models/product');
-const Cart = require('../models/cart');
 
 exports.getProducts = (req, res, next) => {
   Product.findAll().then(products => {
@@ -56,17 +55,16 @@ exports.getCart = (req, res, next) => {
 }
 
 exports.getOrders = (req, res, next) => {
-  res.render('shop/orders', {
-    path: '/orders',
-    pageTitle: 'Your orders'
-  });
-}
+  req.user.getOrders({ include: ['products'] })
+    .then((orders) => {
+      console.log('orders', orders)
+      res.render('shop/orders', {
+        path: '/orders',
+        pageTitle: 'Your orders',
+        orders: orders
+      });
+    }).catch(err => console.log("error in fetching getOrders", err))
 
-exports.getCheckout = (req, res, next) => {
-  res.render('shop/checkout', {
-    path: '/checkout',
-    pageTitle: 'Checkout'
-  });
 }
 
 exports.postCart = (req, res, next) => {
@@ -76,11 +74,20 @@ exports.postCart = (req, res, next) => {
   let fetchedCart;
   req.user.getCart()
     .then(cart => {
+
+      if (!cart) {
+        return req.user.createCart()
+      }
+
+      return cart
+    })
+    .then(cart => {
       fetchedCart = cart
       return cart.getProducts({ where: { id: prodId } })
 
     })
     .then(productsFromCart => {
+      console.log('productsFromCart', productsFromCart)
       let product;
 
       if (productsFromCart.length > 0) {
@@ -105,6 +112,29 @@ exports.postCart = (req, res, next) => {
 }
 
 
+exports.postOrder = (req, res, next) => {
+  let fetchedCart;
+  req.user.getCart()
+    .then((cart) => {
+      fetchedCart = cart
+      return cart.getProducts()
+    })
+    .then((products) => {
+      req.user.createOrder()
+        .then((order) => {
+          return order.addProducts(products.map(product => {
+            product.orderItem = { quantity: product.cartItem.quantity }
+            return product
+          }))
+        }).catch(err => console.log("error in creating order", err))
+    })
+    .then((result) => {
+      return fetchedCart.setProducts(null)
+    }).then(() => res.redirect('/orders'))
+    .catch(err => console.log("error in postOrder ", err))
+
+}
+
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId
   req.user.getCart()
@@ -118,3 +148,4 @@ exports.postCartDeleteProduct = (req, res, next) => {
       res.redirect('/cart')
     }).catch(err => console.log("error in deleting product from cart", err))
 }
+
